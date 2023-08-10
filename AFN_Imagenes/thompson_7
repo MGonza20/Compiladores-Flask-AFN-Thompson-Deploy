@@ -1,0 +1,18 @@
+digraph {
+	graph [rankdir=LR]
+	A -> B [label="ε" color=blue fontcolor=blue]
+	A -> C [label="ε" color=blue fontcolor=blue]
+	B -> D [label="ε" color=blue fontcolor=blue]
+	D -> E [label=2 color=blue fontcolor=blue]
+	E -> F [label="ε" color=blue fontcolor=blue]
+	E -> D [label="ε" color=blue fontcolor=blue]
+	B -> F [label="ε" color=blue fontcolor=blue]
+	F -> G [label=a color=blue fontcolor=blue]
+	C -> H [label=b color=blue fontcolor=blue]
+	G -> I [label="ε" color=blue fontcolor=blue]
+	H -> I [label="ε" color=blue fontcolor=blue]
+	A [fillcolor=lightyellow fontcolor=black shape=circle style=filled]
+	Inicio [shape=point]
+	Inicio -> A [color=green]
+	I [fillcolor=lightgreen fontcolor=black shape=doublecircle style=filled]
+}
