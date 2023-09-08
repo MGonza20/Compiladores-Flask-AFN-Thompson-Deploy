@@ -18,48 +18,53 @@ def hello_world():
 
 @app.route('/generate', methods=['POST'])
 def generate():
-    user_input = request.form['user_input']
+    try:
+        user_input = request.form['user_input']
+        
+        print("")
+
+        print(" + La expresion regular es:", user_input)
+
+        print(" + Generando el AFN...")
+
+        # ELIMINANDO EL DIRECTORIO DE IMAGENES SI EXISTE
+
+        directorio = "AFN_Imagenes"
+        if os.path.exists(directorio):
+            shutil.rmtree(directorio)
+            print(f" - Directorio '{directorio}' eliminado con éxito.")
+        else:
+            print(f" - El directorio '{directorio}' no existe.")
+
+        # CREAMOS EL AUTOMATA FINITO NO DETERMINISTA
+
+        regex = user_input
+
+        # Formateamos la expresion regular para que sea valida
+
+        regex = formatearExpresionRegular(regex)
+
+        # Convertimos la expresion regular de infix a postfix
+
+        regex = convertirAPostfix(regex)
+
+        AFN_Thompson = Thompson(regex).afn
+
+        # Graficamos el automata finito no determinista
+
+        graficarAutomataFinitoNoDeterminista(AFN_Thompson)
+
+        print(" + Generando el GIF...")
+
+        # CREAMOS EL GIF
+
+        crear_gif_thompson()
+        
+        return redirect(url_for('hello_world'))
     
-    print("")
-
-    print(" + La expresion regular es:", user_input)
-
-    print(" + Generando el AFN...")
-
-    # ELIMINANDO EL DIRECTORIO DE IMAGENES SI EXISTE
-
-    directorio = "AFN_Imagenes"
-    if os.path.exists(directorio):
-        shutil.rmtree(directorio)
-        print(f" - Directorio '{directorio}' eliminado con éxito.")
-    else:
-        print(f" - El directorio '{directorio}' no existe.")
-
-    # CREAMOS EL AUTOMATA FINITO NO DETERMINISTA
-
-    regex = user_input
-
-    # Formateamos la expresion regular para que sea valida
-
-    regex = formatearExpresionRegular(regex)
-
-    # Convertimos la expresion regular de infix a postfix
-
-    regex = convertirAPostfix(regex)
-
-    AFN_Thompson = Thompson(regex).afn
-
-    # Graficamos el automata finito no determinista
-
-    graficarAutomataFinitoNoDeterminista(AFN_Thompson)
-
-    print(" + Generando el GIF...")
-
-    # CREAMOS EL GIF
-
-    crear_gif_thompson()
-    
-    return redirect(url_for('hello_world'))
+    except Exception as e:
+        print(" + Error:", e)
+        return redirect(url_for('hello_world'))
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 10000))
