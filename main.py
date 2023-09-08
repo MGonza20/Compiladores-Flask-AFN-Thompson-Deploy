@@ -64,7 +64,7 @@ def generate():
     
     except Exception as e:
         print(" + Error:", e)
-        return redirect(url_for('hello_world'))
+        # return redirect(url_for('hello_world'))
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 10000))
